@@ -1,4 +1,6 @@
 package prob04;
+
+
 public class Prob04 {
 
 	public static void main(String[] args) {
@@ -11,7 +13,13 @@ public class Prob04 {
 	
 	public static char[] reverse(String str) {
 		/* 코드를 완성합니다 */
-		return null;
+		char[] a = {};
+		String b = "";
+		for(int i=str.length()-1; i>=0; i--) {
+			b += str.charAt(i);
+		}
+		a = b.toCharArray();
+		return a;
 	}
 
 	public static void printCharArray(char[] array){
