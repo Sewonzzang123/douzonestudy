@@ -1,7 +1,7 @@
 # Java Practices
 
 ## helloworld
-1. 그냥 연습
+hello world!
 
 ## chapter03
 객체 지향 프로그래밍 연습
