@@ -13,6 +13,9 @@ public class SongTest {
 		song.setComposer("이민수");
 		
 		song.show();
+		
+		Song song2= new Song("롤린","브레이브걸스");
+		song2.show();
 
 	}
 
