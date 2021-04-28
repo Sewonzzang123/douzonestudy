@@ -9,15 +9,18 @@ public class GoodsApp {
 		Scanner scanner = new Scanner(System.in);
 
 		Goods[] goods = new Goods[COUNT_GOODS];
-
 		// 상품 입력
 		for(int i=0; i<goods.length; i++) {
+			
 			String name = scanner.nextLine();
-			goods[i].setName(name);
-			int price = scanner.nextInt();
-			goods[i].setPrice(price);
-			int count = scanner.nextInt();
-			goods[i].setCount(count);			
+			String[] split = name.split(" ");
+			
+			goods[i] = new Goods();
+			goods[i].setName(split[0]);
+			goods[i].setPrice(Integer.parseInt(split[1]));
+			goods[i].setCount(Integer.parseInt(split[2]));
+			
+					
 		}
 		// 상품 출
 		for(int i=0; i<goods.length; i++) {

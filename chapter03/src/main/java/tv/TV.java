@@ -12,25 +12,61 @@ public class TV {
 	}
 	
 	public void power(boolean on) {
-		
+		if(on) {
+			power = true;
+		}else {
+			power = false;
+		}
 	}
 	
 	public void channel(boolean up) {
 		if(up) {
-			
+			if(channel==255) {
+				channel = 1;
+			}else {
+				channel ++;
+			}			
+		}else {
+			if(channel==1) {
+				channel = 255;
+			}else {
+				channel --;
+			}
 		}
 	}
 	
 	public void channel(int channel) {
-		
+		if(1<=channel && channel<=255 ) {
+			this.channel = channel;
+		}else {
+			return;
+		}
 	}
 	
 	public void volume(boolean up) {
-		
+		if(up) {
+			if(volume==100) {
+				volume = 100;
+			}else {
+				volume ++;
+			}
+		}else {
+			if(volume==1) {
+				volume = 1;
+			}else {
+				volume --;
+			}
+		}
 	}
 	
 	public void volume(int volume) {
-		
+		if(1>volume) {
+			this.volume = 1;
+		}else if(volume >100){
+			this.volume =100;
+		}else {
+			this.volume = volume;
+		}
 	}
 	
 	
@@ -41,8 +77,14 @@ public class TV {
 	public int getVolueme() {
 		return channel;
 	}
+	
 	public void status() {
-		System.out.println("TV[power-on, channel = 11, volume = 20]");
+		if(power) {
+			System.out.println("TV[power-on, channel ="+channel+", volume = "+volume+"]");
+		}else {
+			System.out.println("TV[power-off, channel ="+channel+", volume = "+volume+"]");
+		}
+		
 	}
 	
 }
