@@ -41,4 +41,9 @@ public class Goods2 {
 				", countStock: "+ countStock);
 	}
 	
+	public int calcDiscountPrice(double rate) {
+		int discountPrice = (int)(price * rate);
+		return discountPrice;
+	}
+	
 }
