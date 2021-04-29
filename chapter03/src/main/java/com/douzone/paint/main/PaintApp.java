@@ -1,4 +1,8 @@
-package paint;
+package com.douzone.paint.main;
+
+import com.douzone.paint.i.Drawable;
+import com.douzone.paint.point.*;
+import com.douzone.paint.shape.*;
 
 public class PaintApp {
 
