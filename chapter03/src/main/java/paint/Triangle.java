@@ -6,8 +6,7 @@ public class Triangle extends Shape{
 	private int x2;
 	private int y2;
 	private int x3;
-	private int y3;
-	
+	private int y4;
 	public int getX1() {
 		return x1;
 	}
@@ -38,11 +37,11 @@ public class Triangle extends Shape{
 	public void setX3(int x3) {
 		this.x3 = x3;
 	}
-	public int getY3() {
-		return y3;
+	public int getY4() {
+		return y4;
 	}
-	public void setY3(int y3) {
-		this.y3 = y3;
+	public void setY4(int y4) {
+		this.y4 = y4;
 	}
 	
 	@Override
