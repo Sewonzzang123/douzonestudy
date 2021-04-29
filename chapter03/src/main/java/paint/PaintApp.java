@@ -32,11 +32,20 @@ public class PaintApp {
 		// drawShape(circle);
 		draw(circle);
 		
+		//error: class는 hierachy 상위와 하위만 
+		//		instanceof 연산자를 사용할 수 있다.
+		//System.out.println(circle instanceof Rect);
+		
 		Shape c= new Circle();
 		System.out.println(c instanceof Circle);
-		System.out.println(c instanceof Drawable);
 		System.out.println(c instanceof Rect);
 		System.out.println(c instanceof Shape);
+		System.out.println(c instanceof Object);
+		
+		//인터페이스는 hierachy와 상관없이 
+		//instanceof연산자를 사용할 수 있다.
+		System.out.println(c instanceof Drawable);
+		System.out.println(c instanceof Runnable);
 	}
 
 	public static void draw(Drawable drawable) {
