@@ -28,33 +28,33 @@ public class CalcApp {
 			
 			switch( tokens[ 1 ] ) {
 				case "+" : {
-					Add add = new Add();
+					Arith add = new Add();
 					add.setValue( lValue, rValue );
-					int result = add.calculate();
+					int result = add.calculate(lValue, rValue);
 					System.out.println( ">> " + result );
 					
 					break;
 				}
 				case "-" : {
-					Sub sub = new Sub();
+					Arith sub = new Sub();
 					sub.setValue( lValue, rValue );
-					int result = sub.calculate();
+					int result = sub.calculate(lValue, rValue);
 					System.out.println( ">> " + result );
 					
 					break;
 				}
 				case "*" : {
-					Mul mul = new Mul();
+					Arith mul = new Mul();
 					mul.setValue( lValue, rValue );
-					int result = mul.calculate();
+					int result = mul.calculate(lValue, rValue);
 					System.out.println( ">> " + result );
 					
 					break;					
 				}
 				case "/" : {
-					Div div = new Div();
+					Arith div = new Div();
 					div.setValue( lValue, rValue );
-					int result = div.calculate();
+					int result = div.calculate(lValue, rValue);
 					System.out.println( ">> " + result );
 					
 					break;

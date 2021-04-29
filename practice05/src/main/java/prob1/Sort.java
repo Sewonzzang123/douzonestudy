@@ -15,15 +15,7 @@ public class Sort {
 		
 		//
 		// 정렬 알고리즘이 적용된 코드를 여기에 작성합니다.
-		//
-		for(int i=0; i<count-1; i++) {
-			if(array[i]<array[i+1]) {
-				int temp = array[i];
-				array[i] = array[i+1];
-				array[i+1] = temp;
-
-			}
-		}
+		//	2중 for문
 
 		
 		// 결과 출력

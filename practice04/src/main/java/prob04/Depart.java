@@ -5,7 +5,7 @@ public class Depart extends Employee {
 	
 	public Depart(String name, int salary, String depart) {
 		setName(name);
-		setSalary(salary);;
+		setSalary(salary);
 		this.depart = depart;
 		
 	}

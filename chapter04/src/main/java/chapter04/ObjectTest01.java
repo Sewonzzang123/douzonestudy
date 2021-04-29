@@ -12,7 +12,6 @@ public class ObjectTest01 {
 											//reference X
 		System.out.println(p.toString());	//getClass() + "@" + hashCode()
 		System.out.println(p);
-
 	}
 
 }
