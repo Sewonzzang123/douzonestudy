@@ -2,9 +2,10 @@ package prob5;
 
 public class MyStack {
 	private String[] stack;
-	private int top = -1;
+	private int top;
 
 	public MyStack(int size) {
+		top = -1;
 		stack = new String[size];
 	}
 
