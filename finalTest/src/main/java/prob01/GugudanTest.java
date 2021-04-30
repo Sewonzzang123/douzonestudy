@@ -34,9 +34,23 @@ public class GugudanTest {
 		boolean max = false;
 		
 		while(!max) {
+			int i=1;
 			Gugudan gugu = new Gugudan
 					((int)(Math.random()*9)+1,(int)(Math.random()*9)+1);
-			//여기부터 채워야 해
+			for(int j=0; j<gugus.length; j++) {				
+					if(gugus[j].equals(gugu)) {
+						j--;
+					}else {
+						gugus[i] = gugu;
+						i++;
+						if(i==gugus.length) {
+							max = true;
+							break;
+						}
+					}
+				
+			}
+			
 			
 			
 		}
