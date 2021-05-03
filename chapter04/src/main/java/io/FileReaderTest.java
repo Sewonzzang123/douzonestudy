@@ -49,7 +49,10 @@ public class FileReaderTest {
 			try {
 				if(in != null) {
 					in.close();
-				}				
+				}	
+				if(is != null) {
+					is.close();
+				}	
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
