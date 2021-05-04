@@ -1,4 +1,4 @@
-package network;
+package network.test;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -22,8 +22,10 @@ public class LocalHost {
 			System.out.println(hostAddress);
 			
 			//byte단위로
+			//0x000000ff는 -값을 연산하기 위해 사용됩니다.
 			byte[] byteAddress = inetAddress.getAddress();
 			for(byte address:byteAddress) {
+				//System.out.println(address);
 				System.out.print(address&0x000000ff);
 				System.out.print(".");
 			}
