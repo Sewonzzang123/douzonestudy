@@ -1,4 +1,4 @@
-package network.thread;
+package thread;
 
 public class ThreadEx02 {
 

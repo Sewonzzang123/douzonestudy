@@ -1,12 +1,13 @@
-package network.thread;
+package thread;
 
 public class UppercaseAlphabetRunnableImpl extends UppercaseAlphabetThread implements Runnable{
 
-	@Override
 	public void run() {
-		print();
+		// TODO Auto-generated method stub
 		
 	}
+
+
 
 
 

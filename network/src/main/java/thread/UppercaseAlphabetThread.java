@@ -1,10 +1,8 @@
-package network.thread;
+package thread;
 
-public class AlphabetThread extends Thread {
-
-	@Override
-	public void run() {
-		for(char c='a'; c<='z'; c++) {
+public class UppercaseAlphabetThread{
+	public void print() {
+		for(char c ='A'; c<='Z'; c++) {
 			System.out.print(c);
 			try {
 				Thread.sleep(1000);
@@ -13,5 +11,6 @@ public class AlphabetThread extends Thread {
 			}
 		}
 	}
-	
+
+
 }
