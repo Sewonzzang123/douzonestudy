@@ -102,7 +102,7 @@ public class ChatServerThread extends Thread {
 		broadcast(data);
 
 		/* writer pool에 저장 */		
-		listWriters.add(printWriter);
+		addWriter(writer);
 		printWriter.println("join:ok");// ack
 		
 		new ChatClientThread(socket).start();
