@@ -31,7 +31,7 @@ public class ChatClientThread extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			return;
+			System.exit(0);
 		}
 	}
 

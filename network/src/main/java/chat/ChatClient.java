@@ -43,9 +43,7 @@ public class ChatClient {
 			if( "join:ok".equals( line ) ) {
 				System.out.println( "입장하였습니다. 즐거운 채팅 되세요" );
 			}
-			new ChatServerThread(socket).start();
-			
-			printWriter.flush();
+			new ChatClientThread(socket).start();
 
 			
 			
@@ -56,7 +54,7 @@ public class ChatClient {
 
 				if ("quit".equals(input) == true) {
 					// 8. quit 프로토콜 처리
-					printWriter.println("quit:"+input);					
+					printWriter.println("quit");					
 					break;
 				} else {
 					// 9. 메시지 처리

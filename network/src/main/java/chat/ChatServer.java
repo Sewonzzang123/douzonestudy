@@ -1,10 +1,7 @@
 package chat;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.Writer;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -20,8 +17,8 @@ public class ChatServer {
 		Scanner scanner = null;
 		Socket socket = null;
 		ServerSocket serverSocket = null;
-		List<PrintWriter> listWriters = new ArrayList<PrintWriter>();
-		
+		List<Writer> listWriters = new ArrayList<Writer>();
+
 		try {
 			// 1. 키보드 연결
 			scanner = new Scanner(System.in);
@@ -36,9 +33,9 @@ public class ChatServer {
 
 			while (true) {
 				socket = serverSocket.accept();
-				Thread thread = new ChatServerThread(socket);
+				Thread thread = new ChatServerThread(socket,listWriters);
 				thread.start();
-				
+
 				// 4. reader/writer 생성
 //				BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
 //				// 버퍼가 꽉 차있지 않더라도 flush 해주는 것
@@ -53,9 +50,9 @@ public class ChatServer {
 //				// ack ok가 오면
 //				printWriter.flush();
 
-				// 6. ChatClientReceiveThread 시작				
+				// 6. ChatClientReceiveThread 시작
 //				new ChatClientThread(socket).start();
-				
+
 				// 7. 키보드 입력 처리
 //				while (true) {
 //					System.out.print(">>");
@@ -73,8 +70,15 @@ public class ChatServer {
 		} catch (IOException ex) {
 			log("error:" + ex);
 		} finally {
-			// 10. 자원정리
-			
+			try {
+				// 10. 자원정리
+				if (serverSocket != null && serverSocket.isClosed() == false) {
+					serverSocket.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
 		}
 
 	}

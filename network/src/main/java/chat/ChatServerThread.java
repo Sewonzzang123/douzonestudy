@@ -86,28 +86,26 @@ public class ChatServerThread extends Thread {
 		/*
 		 * 잘 구현해보기 현재 스레드의 writer를 Writer pool에서 제거한 후 브로드캐스팅 한다.
 		 */
-
+		synchronized (listWriters) {
+				listWriters.remove(writer);
+		}
 	}
 
 	
 
 	private void doJoin(String nickName, Writer writer) throws UnsupportedEncodingException, IOException {
-		PrintWriter printWriter;
-
-		printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
+		PrintWriter printWriter = (PrintWriter)writer;
 
 		this.nickName = nickName;
 
 		String data = nickName + " 님이 참여하였습니다.";
 		broadcast(data);
 
-		/* writer pool에 저장 */		// ack
-		printWriter.println("join:ok");
-		printWriter.flush();
-
-		List<Writer> listWriters = new ArrayList<Writer>();
+		/* writer pool에 저장 */		
 		listWriters.add(printWriter);
-		new ChatServerThread(socket, listWriters).start();
+		printWriter.println("join:ok");// ack
+		
+		new ChatClientThread(socket).start();
 
 	}
 
