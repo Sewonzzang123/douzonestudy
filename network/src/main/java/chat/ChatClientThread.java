@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ChatClientThread extends Thread {
 	private BufferedReader br;
@@ -26,7 +27,9 @@ public class ChatClientThread extends Thread {
 					System.out.println(message);
 				}
 			}
-		} catch (UnsupportedEncodingException e) {
+		} catch (SocketException e) {
+			System.out.println(e);
+		}	catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();

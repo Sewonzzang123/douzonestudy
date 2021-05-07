@@ -35,37 +35,6 @@ public class ChatServer {
 				socket = serverSocket.accept();
 				Thread thread = new ChatServerThread(socket,listWriters);
 				thread.start();
-
-				// 4. reader/writer 생성
-//				BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
-//				// 버퍼가 꽉 차있지 않더라도 flush 해주는 것
-//				PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"),
-//						true);
-
-				// 5. join 프로토콜
-//				System.out.print("닉네임>>");
-//				String nickname = scanner.nextLine();
-//				printWriter.println("join:" + nickname);
-//				String line = br.readLine();
-//				// ack ok가 오면
-//				printWriter.flush();
-
-				// 6. ChatClientReceiveThread 시작
-//				new ChatClientThread(socket).start();
-
-				// 7. 키보드 입력 처리
-//				while (true) {
-//					System.out.print(">>");
-//					String input = scanner.nextLine();
-//
-//					if ("quit".equals(input) == true) {
-//						// 8. quit 프로토콜 처리
-//						break;
-//					} else {
-//						// 9. 메시지 처리
-//
-//					}
-//				}
 			}
 		} catch (IOException ex) {
 			log("error:" + ex);

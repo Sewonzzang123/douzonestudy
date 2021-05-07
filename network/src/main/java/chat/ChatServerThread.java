@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +55,9 @@ public class ChatServerThread extends Thread {
 					ChatServer.log("에러: 알수 없는 요청(" + tokens[0] + ")");
 				}
 			}
-		} catch (UnsupportedEncodingException e) {
+		}catch(SocketException e) {
+			e.printStackTrace();
+		}catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
