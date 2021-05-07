@@ -49,7 +49,7 @@ public class UDPEchoClient {
 				String message = new String(receiveData, 0, length, "utf-8");
 
 
-				//8. 콘솔 출력
+				//6. 콘솔 출력
 				System.out.println("<" + message);
 			}
 
