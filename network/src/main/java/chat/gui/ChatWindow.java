@@ -13,6 +13,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.Socket;
+import java.net.SocketException;
+
+import chat.ChatClientThread;
 
 public class ChatWindow {
 
@@ -21,14 +31,19 @@ public class ChatWindow {
 	private Button buttonSend;
 	private TextField textField;
 	private TextArea textArea;
+	
+	private PrintWriter pw;
+	private BufferedReader br;
+	private Socket socket;
+	
 
-	// name->닉네임, +소켓추가해서 세팅
-	public ChatWindow(String name) {
-		frame = new Frame(name);
+	public ChatWindow(String nickname, Socket socket) {
+		frame = new Frame(nickname);
 		pannel = new Panel();
 		buttonSend = new Button("Send");
 		textField = new TextField();
 		textArea = new TextArea(30, 80);
+		this.socket = socket;
 	}
 
 	public void show() {
@@ -71,48 +86,90 @@ public class ChatWindow {
 		// Frame
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				finish();			
+				finish();
 			}
 		});
 		frame.setVisible(true);
 		frame.pack();
+		try {
+			/**
+			 * 2.IOStream생성 (코드작성)
+			 */
+			br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
+			pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
 
-		/**
-		 * 2.IOStream생성 (코드작성)
-		 */
+			/**
+			 * 3. Chat client Thread 생성(Receive Thread)(코드작성)
+			 */
+			new ChatClientThread().start();
 
-		/**
-		 * 3. Chat client Thread 생성(Receive Thread)(코드작성)
-		 */
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
+
 	private void finish() {
-		System.out.println("소켓 닫기 or 방나가기 프로토콜 구현");
-		System.exit(0);
+		try {
+			if (socket != null && socket.isClosed() == false) {
+				socket.close();
+				System.exit(0);
+			}
+		} catch (SocketException e) {
+			System.out.println(" suddenly closed by server");
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
+
 	private void sendMessage() {
 		String message = textField.getText();
-		System.out.println("프로토콜 구현: " + message);
+		if("quit".equals(message)==true) {
+			finish();
+		}else {
+			pw.println("message:"+message);
+		}
+		//System.out.println("프로토콜 구현: " + message);
 		// pr
-		//test chatClientThread에서 만들어야댐
-		updateTextArea("마이콜: "+message);
+		// test chatClientThread에서 만들어야댐
+//		updateTextArea("마이콜: " + message);
 		// 프로토콜 구현
 		textField.setText("");
 		textField.requestFocus();
 	}
-	
-	private void updateTextArea(String message) {
+
+	private void updateTextArea(String message) {		
 		textArea.append(message);
 		textArea.append("\n");
 	}
-	
-	//class구현
-	private class ChatClinetThread extends Thread{
-		
+
+	// class구현
+	private class ChatClientThread extends Thread {
 		@Override
 		public void run() {
-			//updateTextArea("...");
+			// updateTextArea("...");
+			try {
+				br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
+				while (true) {
+					String message = br.readLine();
+					if (message == null) {
+						break;
+					} else {
+						//System.out.println(message);
+						updateTextArea(message);
+					}
+				}
+			} catch (SocketException e) {
+				System.out.println(e);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				System.exit(0);
+			}
 		}
 	}
 }
-

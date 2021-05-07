@@ -31,10 +31,12 @@ public class ChatServerThread extends Thread {
 
 	@Override
 	public void run() {
+		BufferedReader bufferedReader=null;
+		Writer printWriter=null;
 		try {
 			// 2. 스트림 얻기
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
-			Writer printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
+			bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
+			printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
 			// 3. 요청 처리
 			while (true) {
 				String request = bufferedReader.readLine();
@@ -56,8 +58,10 @@ public class ChatServerThread extends Thread {
 				}
 			}
 		}catch(SocketException e) {
+			doQuit(printWriter);
 			e.printStackTrace();
 		}catch (UnsupportedEncodingException e) {
+			doQuit(printWriter);
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();

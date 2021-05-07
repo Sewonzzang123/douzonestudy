@@ -14,7 +14,7 @@ import echo.EchoServer;
 
 public class ChatClient {
 	private static final String SERVER_IP = "127.0.0.1";
-	private static final int SERVER_PORT = EchoServer.PORT;
+	private static final int SERVER_PORT = ChatServer.PORT;
 
 	public static void main(String[] args) {
 		Socket socket = null;
