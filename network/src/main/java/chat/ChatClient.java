@@ -49,6 +49,9 @@ public class ChatClient {
 			
 			// 7. 키보드 입력 처리
 			while (true) {
+				if(scanner.hasNextLine() == false) {
+					continue;
+				}
 				System.out.print(">>");
 				String input = scanner.nextLine();
 
@@ -56,7 +59,9 @@ public class ChatClient {
 					// 8. quit 프로토콜 처리
 					printWriter.println("quit");					
 					break;
-				} else {
+				} 
+				
+				if("".equals(input)==false){
 					// 9. 메시지 처리
 					printWriter.println("message:"+input);					
 				}

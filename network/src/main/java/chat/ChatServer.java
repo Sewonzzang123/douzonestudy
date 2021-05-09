@@ -22,8 +22,14 @@ public class ChatServer {
 		try {
 			// 1. 키보드 연결
 			scanner = new Scanner(System.in);
+					
+			
 			// 2. socket 생성
 			serverSocket = new ServerSocket();
+			
+			//1-1. set option SO_REUSEADDR 
+			//     (종료후 빨리 바인딩을 하기 위해서 )
+			serverSocket.setReuseAddress( true );
 
 			// 3. 연결
 			serverSocket.bind(new InetSocketAddress("0.0.0.0", PORT));

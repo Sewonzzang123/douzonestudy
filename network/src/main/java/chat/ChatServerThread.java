@@ -17,7 +17,7 @@ public class ChatServerThread extends Thread {
 	// 1. Remote Host Information
 	private String nickName;
 	private Socket socket;
-	private List<Writer> listWriters = new ArrayList<Writer>();
+	private List<Writer> listWriters;
 	
 	
 	public ChatServerThread(Socket socket) {
@@ -33,7 +33,14 @@ public class ChatServerThread extends Thread {
 	public void run() {
 		BufferedReader bufferedReader=null;
 		Writer printWriter=null;
-		try {
+		try {		
+			ChatServer.consoleLog(
+					"connected by client[" +
+					remoteSocketAddress.getAddress().getHostAddress() + ":" + 
+					remoteSocketAddress.getPort() +
+					"]" );
+			
+			
 			// 2. 스트림 얻기
 			bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
 			printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
@@ -42,7 +49,6 @@ public class ChatServerThread extends Thread {
 				String request = bufferedReader.readLine();
 				if (request == null) {
 					ChatServer.log("클라이언트로부터 연결 끊김");
-					doQuit(printWriter);
 					break;
 				}
 				// 4. 프로토콜 분석
@@ -78,9 +84,11 @@ public class ChatServerThread extends Thread {
 
 	public void doQuit(Writer writer) {
 		removeWriter(writer);
-
-		String data = nickName + "님이 퇴장 하였습니다.";
-		broadcast(data);
+		if(name != null) {
+			String data = nickName + "님이 퇴장 하였습니다.";
+			broadcast(data);
+		}
+		
 	}
 
 	private void doMessage(String message) {
@@ -112,7 +120,6 @@ public class ChatServerThread extends Thread {
 		addWriter(writer);
 		printWriter.println("join:ok");// ack
 		
-		new ChatClientThread(socket).start();
 
 	}
 
@@ -127,7 +134,6 @@ public class ChatServerThread extends Thread {
 			for (Writer writer : listWriters) {
 				PrintWriter printWriter = (PrintWriter) writer;
 				printWriter.println(data);
-				printWriter.flush();
 			}
 		}
 	}
