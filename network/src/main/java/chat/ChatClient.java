@@ -5,87 +5,82 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.Scanner;
-
-import echo.EchoServer;
 
 public class ChatClient {
 	private static final String SERVER_IP = "127.0.0.1";
-	private static final int SERVER_PORT = ChatServer.PORT;
+	private static final int SERVER_PORT = 9999;
 
 	public static void main(String[] args) {
 		Socket socket = null;
 		Scanner scanner = null;
-		String nickname=null;
+		
 		try {
-			// 1. Scanner 생성
-			scanner = new Scanner(System.in);
-
-			// 2. 소켓 생성
+			// 1.create scanner to keyboard
+			scanner = new Scanner( System.in );
+			
+			// 2.create socket
 			socket = new Socket();
 
-			// 3.서버 연결
+			// 3.connect to server
 			socket.connect(new InetSocketAddress(SERVER_IP, SERVER_PORT));
-
-			// 4. IO Stream 받아오기
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
-			PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
-
-			// 5. join 프로토콜
-			System.out.print("닉네임>>");	
-			nickname = scanner.nextLine();
-			printWriter.println("join:" + nickname);		
-			String line = bufferedReader.readLine();
-			// ack ok가 오면			
-			if( "join:ok".equals( line ) ) {
+			
+			// 4.create stream
+			PrintWriter pw = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "UTF-8" ), true );
+			BufferedReader br = new BufferedReader( new InputStreamReader(socket.getInputStream(), "UTF-8" ) );
+			
+			// 5.join
+			System.out.print( "닉네임>>" );
+			String nickname = scanner.nextLine();
+			pw.println( "JOIN:" + nickname );
+			String ack = br.readLine();
+			if( "JOIN:OK".equals( ack ) ) {
 				System.out.println( "입장하였습니다. 즐거운 채팅 되세요" );
 			}
-			new ChatClientThread(socket).start();
-
 			
+			//6.create and start thread
+			new ChatClientThread( socket ).start();
 			
-			// 7. 키보드 입력 처리
-			while (true) {
-				if(scanner.hasNextLine() == false) {
+			//7.input message
+			while( true ) {
+				if( scanner.hasNextLine() == false ) {
 					continue;
 				}
-				System.out.print(">>");
-				String input = scanner.nextLine();
-
-				if ("quit".equals(input) == true) {
-					// 8. quit 프로토콜 처리
-					printWriter.println("quit");					
-					break;
-				} 
 				
-				if("".equals(input)==false){
-					// 9. 메시지 처리
-					printWriter.println("message:"+input);					
+				String message = scanner.nextLine();
+				
+				if( "quit".equals( message ) ) {
+					pw.println( "QUIT" );
+					//System.exit(0);
+					break;
+				}
+				
+				if( "".equals( message ) == false ){
+					pw.println( "MESSAGE:" + message );
 				}
 			}
-
-		} catch (SocketException e) {
-			log(nickname," :suddenly closed by server");
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (ConnectException ex) {
+			consoleLog( "서버[" + SERVER_IP + ":" + SERVER_PORT + "]에 연결할 수 없습니다." );	
+		} catch (Exception ex) {
+			consoleLog( "다음 이유로 프로그램을 종료 합니다 :" + ex );	
 		} finally {
 			try {
-				if (scanner != null) {
+				if( scanner != null ) {
 					scanner.close();
 				}
-				if (socket != null && socket.isClosed() == false) {
+				if( socket != null && socket.isClosed() == false ){
 					socket.close();
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
+			}catch( IOException ex ) {
+				consoleLog( "다음 이유로 프로그램을 종료 합니다 :" + ex );	
 			}
 		}
 	}
-
-	private static void log(String nickName,String log) {
-		System.out.println("["+nickName+"]: " + log);
+	
+	public static void consoleLog( String message ) {
+		System.out.println( "\n[chat client]" + message );
 	}
 }
