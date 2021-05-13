@@ -124,7 +124,9 @@ public class RequestHandler extends Thread {
 			// \r\n
 			// HTML 에러 문서 (./webapp/error/404.html)
 			// 404응답
-			response404Error(os, url, protocol);
+			
+			//response404Error(os, url, protocol);
+			System.out.println("file not found:"+file.getAbsolutePath());
 			return;
 		}
 
