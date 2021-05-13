@@ -11,8 +11,14 @@ import java.nio.file.Files;
 
 public class RequestHandler extends Thread {
 	private Socket socket;
-	private static final String DOCUMENTROOT = "./webapp";
+	//private static final String DOCUMENTROOT = "./webapp";
+	private static String DOCUMENTROOT = "";
 
+	static{//class가 로딩될때 실행된다.
+		DOCUMENTROOT = RequestHandler.class.getClass().getResource("/webapp").getPath();
+		System.out.println(DOCUMENTROOT);
+	}
+	
 	public RequestHandler(Socket socket) {
 		this.socket = socket;
 	}
